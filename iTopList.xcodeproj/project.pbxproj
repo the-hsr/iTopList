@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		A3771F882F55C5CA00BA5584 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A3771F2A2F55BF3000BA5584 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3771F312F55BF3000BA5584;
+			remoteInfo = iTopList;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		A3771F322F55BF3000BA5584 /* iTopList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTopList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3771F842F55C5CA00BA5584 /* iTopListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTopListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = iTopList;
 			sourceTree = "<group>";
 		};
+		A3771F852F55C5CA00BA5584 /* iTopListTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iTopListTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A3771F2F2F55BF3000BA5584 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3771F812F55C5CA00BA5584 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				A3771F342F55BF3000BA5584 /* iTopList */,
+				A3771F852F55C5CA00BA5584 /* iTopListTests */,
 				A3771F332F55BF3000BA5584 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				A3771F322F55BF3000BA5584 /* iTopList.app */,
+				A3771F842F55C5CA00BA5584 /* iTopListTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = A3771F322F55BF3000BA5584 /* iTopList.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A3771F832F55C5CA00BA5584 /* iTopListTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3771F8A2F55C5CA00BA5584 /* Build configuration list for PBXNativeTarget "iTopListTests" */;
+			buildPhases = (
+				A3771F802F55C5CA00BA5584 /* Sources */,
+				A3771F812F55C5CA00BA5584 /* Frameworks */,
+				A3771F822F55C5CA00BA5584 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3771F892F55C5CA00BA5584 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A3771F852F55C5CA00BA5584 /* iTopListTests */,
+			);
+			name = iTopListTests;
+			packageProductDependencies = (
+			);
+			productName = iTopListTests;
+			productReference = A3771F842F55C5CA00BA5584 /* iTopListTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,11 @@
 				TargetAttributes = {
 					A3771F312F55BF3000BA5584 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					A3771F832F55C5CA00BA5584 = {
+						CreatedOnToolsVersion = 26.0.1;
+						LastSwiftMigration = 2600;
+						TestTargetID = A3771F312F55BF3000BA5584;
 					};
 				};
 			};
@@ -100,12 +153,20 @@
 			projectRoot = "";
 			targets = (
 				A3771F312F55BF3000BA5584 /* iTopList */,
+				A3771F832F55C5CA00BA5584 /* iTopListTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A3771F302F55BF3000BA5584 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3771F822F55C5CA00BA5584 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +183,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A3771F802F55C5CA00BA5584 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A3771F892F55C5CA00BA5584 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A3771F312F55BF3000BA5584 /* iTopList */;
+			targetProxy = A3771F882F55C5CA00BA5584 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A3771F3B2F55BF3100BA5584 /* Debug */ = {
@@ -329,6 +405,49 @@
 			};
 			name = Release;
 		};
+		A3771F8B2F55C5CA00BA5584 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KA27P5GHFL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.himanshu.iTopListTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTopList.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iTopList";
+			};
+			name = Debug;
+		};
+		A3771F8C2F55C5CA00BA5584 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KA27P5GHFL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.himanshu.iTopListTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTopList.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iTopList";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -346,6 +465,15 @@
 			buildConfigurations = (
 				A3771F3E2F55BF3100BA5584 /* Debug */,
 				A3771F3F2F55BF3100BA5584 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A3771F8A2F55C5CA00BA5584 /* Build configuration list for PBXNativeTarget "iTopListTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3771F8B2F55C5CA00BA5584 /* Debug */,
+				A3771F8C2F55C5CA00BA5584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

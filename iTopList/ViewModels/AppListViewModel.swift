@@ -25,21 +25,21 @@ final class AppListViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var isGrid = false
 
-    private let api: APIClientProtocol
-    private var allApps: [AppEntry] = []
-    private let pageSize = 20
-    private var currentPage = 0
-    private var isLoadingPage = false
+    internal let api: APIClientProtocol
+    internal var allApps: [AppEntry] = []
+    internal let pageSize = 20
+    internal var currentPage = 0
+    internal var isLoadingPage = false
     private var cancellables = Set<AnyCancellable>()
 
-    private var filteredApps: [AppEntry] {
+    internal var filteredApps: [AppEntry] {
         guard !searchText.isEmpty else { return allApps }
         return allApps.filter {
             $0.displayName.localizedCaseInsensitiveContains(searchText)
         }
     }
 
-    private var totalFilteredCount: Int {
+    internal var totalFilteredCount: Int {
         filteredApps.count
     }
 
@@ -120,7 +120,7 @@ final class AppListViewModel: ObservableObject {
         }
     }
 
-    private func loadNextPage() {
+    internal func loadNextPage() {
         guard !isLoadingPage else { return }
 
         let startIndex = currentPage * pageSize
@@ -140,7 +140,7 @@ final class AppListViewModel: ObservableObject {
         }
     }
 
-    private func resetPagination() {
+    internal func resetPagination() {
         visibleApps.removeAll()
         currentPage = 0
     }
