@@ -12,21 +12,20 @@ import XCTest
 final class AppListViewModelTests: XCTestCase {
     var viewModel: AppListViewModel!
     var mockAPIClient: MockAPIClient!
-    
+
     override func setUp() {
         super.setUp()
         mockAPIClient = MockAPIClient()
         viewModel = AppListViewModel(api: mockAPIClient)
     }
-    
+
     override func tearDown() {
         mockAPIClient.reset()
         viewModel = nil
         super.tearDown()
     }
-    
+
     func testInitialState() {
-        // Then
         XCTAssertTrue(viewModel.visibleApps.isEmpty)
         XCTAssertNil(viewModel.selectedApp)
         XCTAssertFalse(viewModel.showDetail)
@@ -34,52 +33,43 @@ final class AppListViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.searchText.isEmpty)
         XCTAssertEqual(viewModel.state, .loading)
     }
-    
+
     func testLoad_Success() async {
-        // Given
         let mockApps = TestData.createMockApps(count: 5)
         mockAPIClient.mockApps = mockApps
-        
-        // When
+
         viewModel.load()
-        
-        // Wait for the async task to complete
+
         let expectation = XCTestExpectation(description: "Wait for load")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1.0)
-        
-        // Then
+
         XCTAssertEqual(viewModel.state, .loaded)
         XCTAssertFalse(viewModel.visibleApps.isEmpty)
         XCTAssertEqual(viewModel.visibleApps.count, min(5, viewModel.pageSize))
     }
-    
+
     func testLoad_Failure() async {
-        // Given
         mockAPIClient.mockError = NetworkError.noInternetConnection
-        
-        // When
+
         viewModel.load()
-        
-        // Wait for the async task to complete
+
         let expectation = XCTestExpectation(description: "Wait for load failure")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1.0)
-        
-        // Then
+
         if case .failed(let message) = viewModel.state {
             XCTAssertTrue(message.contains("internet") || message.contains("connection"))
         } else {
             XCTFail("Expected failed state, got \(viewModel.state)")
         }
     }
-    
+
     func testSearchFiltering() async {
-        // Given
         let mockApps = [
             TestData.createMockApp(name: "Minecraft"),
             TestData.createMockApp(name: "Geometry Dash"),
@@ -87,177 +77,140 @@ final class AppListViewModelTests: XCTestCase {
         ]
         mockAPIClient.mockApps = mockApps
         viewModel.allApps = mockApps
-        
-        // When
+
         viewModel.searchText = "Mine"
         viewModel.applySearch()
-        
-        // Wait for debounce and async operations
+
         let expectation = XCTestExpectation(description: "Wait for search")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1.0)
-        
-        // Then
+
         let filtered = viewModel.filteredApps
         XCTAssertEqual(filtered.count, 1)
         XCTAssertEqual(filtered.first?.displayName, "Minecraft")
     }
-    
+
     func testSearchWithEmptyText() async {
-        // Given
         let mockApps = TestData.createMockApps(count: 10)
         viewModel.allApps = mockApps
         viewModel.searchText = ""
-        
-        // When
+
         viewModel.applySearch()
-        
-        // Wait for debounce
+
         let expectation = XCTestExpectation(description: "Wait for search")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 1.0)
-        
-        // Then
+
         XCTAssertEqual(viewModel.filteredApps.count, 10)
     }
 
     func testPaginationStopsAtEnd() async {
-        // Given
         let mockApps = TestData.createMockApps(count: 25)
         viewModel.allApps = mockApps
         viewModel.resetPagination()
-        
-        // When - Load first page
         viewModel.loadNextPage()
-        
-        // Wait for async loading
+
         var expectation = XCTestExpectation(description: "Wait for first page")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
+
         XCTAssertEqual(viewModel.visibleApps.count, 20)
-        
-        // When - Load second page
+
         if let lastItem = viewModel.visibleApps.last {
             viewModel.loadNextPageIfNeeded(currentItem: lastItem)
         }
-        
-        // Wait for async loading
+
         expectation = XCTestExpectation(description: "Wait for second page")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
-        // Then
-//        XCTAssertEqual(viewModel.visibleApps.count, 25)
-        
-        // When - Try to load beyond
+
         if let lastItem = viewModel.visibleApps.last {
             viewModel.loadNextPageIfNeeded(currentItem: lastItem)
         }
-        
-        // Wait a bit to ensure no loading happens
+
         expectation = XCTestExpectation(description: "Wait for no load")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
-        // Then - Should still be 25
+
         XCTAssertEqual(viewModel.visibleApps.count, 25)
     }
-    
+
     func testResetPagination() async {
-        // Given
         let mockApps = TestData.createMockApps(count: 30)
         viewModel.allApps = mockApps
         viewModel.loadNextPage()
-        
-        // Wait for async loading
+
         let expectation = XCTestExpectation(description: "Wait for load")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
+
         XCTAssertFalse(viewModel.visibleApps.isEmpty)
-        
-        // When
+
         viewModel.resetPagination()
-        
-        // Then
+
         XCTAssertTrue(viewModel.visibleApps.isEmpty)
         XCTAssertEqual(viewModel.currentPage, 0)
     }
     
     func testSelectApp() async {
-        // Given
         let app = TestData.createMockApp()
-        
-        // When - Select from column view (no popup)
+
         viewModel.selectApp(app, fromGrid: false)
-        
-        // Wait for async dispatch
+
         let expectation = XCTestExpectation(description: "Wait for selection")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
-        // Then
+
         XCTAssertEqual(viewModel.selectedApp?.id, app.id)
         XCTAssertFalse(viewModel.showDetail)
-        
-        // When - Select from grid view (with popup)
+
         viewModel.selectApp(app, fromGrid: true)
-        
-        // Wait for async dispatch
+
         let expectation2 = XCTestExpectation(description: "Wait for selection")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             expectation2.fulfill()
         }
         await fulfillment(of: [expectation2], timeout: 0.5)
-        
-        // Then
+
         XCTAssertEqual(viewModel.selectedApp?.id, app.id)
         XCTAssertTrue(viewModel.showDetail)
     }
-    
+
     func testToggleGrid() async {
-        // Given
         XCTAssertFalse(viewModel.isGrid)
-        
-        // When
+
         viewModel.toggleGrid()
-        
-        // Wait for async dispatch
+
         let expectation = XCTestExpectation(description: "Wait for toggle")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             expectation.fulfill()
         }
         await fulfillment(of: [expectation], timeout: 0.5)
-        
-        // Then
+
         XCTAssertTrue(viewModel.isGrid)
-        
-        // When
+
         viewModel.toggleGrid()
-        
-        // Wait for async dispatch
+
         let expectation2 = XCTestExpectation(description: "Wait for toggle")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             expectation2.fulfill()
         }
         await fulfillment(of: [expectation2], timeout: 0.5)
-        
-        // Then
+
         XCTAssertFalse(viewModel.isGrid)
     }
 }

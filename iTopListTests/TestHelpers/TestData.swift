@@ -8,7 +8,6 @@
 import Foundation
 @testable import iTopList
 
-// MARK: - Test Data Helper
 enum TestData {
     static func createMockApp(
         name: String = "Test App",
@@ -25,10 +24,10 @@ enum TestData {
             ]
         }
         """.data(using: .utf8)!
-        
+
         return try! JSONDecoder().decode(AppEntry.self, from: json)
     }
-    
+
     static func createMockApps(count: Int) -> [AppEntry] {
         var apps: [AppEntry] = []
         for i in 1...count {
@@ -41,7 +40,7 @@ enum TestData {
         }
         return apps
     }
-    
+
     static let mockRSSResponseJSON = """
     {
         "feed": {
@@ -66,7 +65,7 @@ enum TestData {
         }
     }
     """
-    
+
     static var mockRSSResponseData: Data {
         mockRSSResponseJSON.data(using: .utf8)!
     }
